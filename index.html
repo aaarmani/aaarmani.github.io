@@ -98,24 +98,24 @@
     <script>
         var questionList;
         var questionIndex = 0;
-
+        
         var titleObj;
         var questionObj;
         var tryAgainBtn;
         var quizError;
         var quizSuccess;
         var finishBtn;
-
+        
         const statusEnum = Object.freeze({"Question":1, "CorrectAnswer":2, "ErrorAnswer":3})
         var status = statusEnum.Question;
-
+        
         function startPage() {
             var pgStart = document.getElementById('pgStart');
             var pgQuiz = document.getElementById('pgQuiz');
             pgStart.style.display = "block";
             pgQuiz.style.display = "none";
         }
-
+        
         function goToQuiz() {
             var pgStart = document.getElementById('pgStart');
             var pgQuiz = document.getElementById('pgQuiz');
@@ -123,7 +123,7 @@
             pgQuiz.style.display = "block";
             startQuiz();
         }
-
+        
         function startQuiz() {
             titleObj = document.getElementById('quizTitle');
             questionObj = document.getElementById('quizQuestion');
@@ -131,15 +131,15 @@
             tryAgainBtn = document.getElementById('tryAgainBtn');
             quizError = document.getElementById('quizError');
             quizSuccess = document.getElementById('quizSuccess');
-
+        
             readQuestions();
             showQuestion();
         }
-
+        
         function readQuestions() {
             questionList =  JSON.parse('{"questions":[{"title":"TRUE OR FALSE?","question":"Q: All blind and partially sighted people can be identified by having a guide dog or a white cane.","answer":"A: Not all visually impaired people have a guide dog or use a white cane and not all disabilities are obvious to see. Try another question to test your knowledge!","options":[{"label":"True","action":"ERROR"},{"label":"False","action":"SUCCESS"}]},{"title":"TRUE OR FALSE?","question":"Q: You can ride in a No Go Area.","answer":"A: That\'s incorrect. You can\'t ride in a No Go Zone. Try another question to test your Knowledge!","options":[{"label":"True","action":"ERROR"},{"label":"False","action":"SUCCESS"}]},{"title":"TRUE OR FALSE?","question":"Q: It is OK for two people to ride an e-scooter together.","answer":"A: That\'s incorrect. Only one person is allowed on an e-scooter. Please don\'t ride in tandems. Try another question to test your knowledge!","options":[{"label":"True","action":"ERROR"},{"label":"False","action":"SUCCESS"}]}]}')
         }
-
+        
         function showQuestion() {
             status = statusEnum.Question;
             titleObj.style.display = "block";
@@ -147,11 +147,11 @@
             quizSuccess.style.display = "none";
             quizError.style.display = "none";
             tryAgainBtn.style.display = "none";
-
+        
             titleObj.textContent = questionList.questions[questionIndex].title;
             questionObj.textContent = questionList.questions[questionIndex].question;
         }
-
+        
         function showSuccess() {
             status = statusEnum.CorrectAnswer;
             titleObj.style.display = "none";
@@ -159,10 +159,10 @@
             quizSuccess.style.display = "block";
             quizError.style.display = "none";
             tryAgainBtn.style.display = "none";
-
-            questionObj.textContent = questionList.questions[questionIndex].answer;
+        
+            questionObj.textContent = questionList.questions[questionIndex].answer;    
         }
-
+        
         function showError() {
             status = statusEnum.ErrorAnswer;
             titleObj.style.display = "none";
@@ -170,16 +170,16 @@
             quizSuccess.style.display = "none";
             quizError.style.display = "block";
             tryAgainBtn.style.display = "block";
-
-            questionObj.textContent = questionList.questions[questionIndex].answer;
+        
+            questionObj.textContent = questionList.questions[questionIndex].answer;    
         }
-
+        
         // FROM HTML
         function nextQuestion() {
             if(++questionIndex > questionList.questions.length-1) questionIndex = 0;
             showQuestion();
         }
-
+        
         function checkResult(result) {
             if(status != statusEnum.Question) {
                 console.log("Status is not Question");
@@ -189,28 +189,29 @@
             var expectedAction = selectedQuestion.options.filter(obj => {
                 return obj.label == result;
             });
-
+        
             if(expectedAction[0].action == "SUCCESS") {
                 showSuccess();
             } else {
                 showError();
             }
         }
-
+        
         // Calling Native APP
         function callNativeApp() {
             console.log("CALLING NATIVE APP...");
-
+        
             try {
                 console.log("Calling Android...");
                 Android.quizSuccess();
             } catch(e) {}
-
+            
             try {
                 console.log("Calling iOS...");
                 window.webkit.messageHandlers.quizSuccess.postMessage();
-            } catch(e) {}
+            } catch(e) {}   
         }</script>
+    <title>SAFE RIDE QUIZ</title>
 </head>
 <body onload="startPage()">
     <div id="pgStart">
@@ -218,7 +219,7 @@
 
         <p>Before you can start your first ride, please answer a question.</p>
         <img src="img/hello.png" width="400">
-
+        
         <div style="position: relative; text-align: center;">
             <button class="action-button" onclick="goToQuiz()">START QUIZ</button>
         </div>
@@ -234,30 +235,18 @@
             <!-- <img src="img/hello.png" width="40"> -->
             <h1 id="quizSuccess" class="success-msg">CORRECT</h1>
         </div>
-
+        
         <p id="quizQuestion"></p>
-
+        
         <button id="trueBtn" class="answer-button" onclick="checkResult('True')">TRUE</button>
         <button id="falseBtn" class="answer-button" onclick="checkResult('False')">FALSE</button>
-
+        
         <br>
         <div style="position: relative; text-align: center;">
-            <button id="finishBtn" class="action-button">FINISH</button>
-            <button id="tryAgainBtn" class="action-button">TRY AGAIN</button>
+            <button id="finishBtn" class="action-button" onclick="callNativeApp()">FINISH</button>
+            <button id="tryAgainBtn" class="action-button" onclick="nextQuestion()">TRY AGAIN</button>
         </div>
-        <script>
-            window.onload = function() {
-            var button = document.getElementById("finishBtn");
-            button.addEventListener("click", function() {
-                callNativeApp()
-            },false);
-            }
-            var button = document.getElementById("tryAgainBtn");
-            button.addEventListener("click", function() {
-                nextQuestion()()
-            },false);
-            }
-        </script>
+        
     </div>
 </body>
 </html>
