@@ -208,10 +208,11 @@
             
             try {
                 console.log("Calling iOS...");
-                window.webkit.messageHandlers.quizSuccess.postMessage();
+                var resultMessage = {result:"success"};
+                window.webkit.messageHandlers.quizSuccess.postMessage(resultMessage);
             } catch(e) {}   
         }</script>
-    <title>SAFE RIDE QUIZ</title>
+        <title>SAFE RIDE QUIZ</title>
 </head>
 <body onload="startPage()">
     <div id="pgStart">
