@@ -2,6 +2,56 @@
 <html>
 <head>
     <style>
+        /* http://meyerweb.com/eric/tools/css/reset/
+        v2.0 | 20110126
+        License: none (public domain)
+        reset.css
+        */
+
+        html, body, div, span, applet, object, iframe,
+        h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+        a, abbr, acronym, address, big, cite, code,
+        del, dfn, em, img, ins, kbd, q, s, samp,
+        small, strike, strong, sub, sup, tt, var,
+        b, u, i, center,
+        dl, dt, dd, ol, ul, li,
+        fieldset, form, label, legend,
+        table, caption, tbody, tfoot, thead, tr, th, td,
+        article, aside, canvas, details, embed,
+        figure, figcaption, footer, header, hgroup,
+        menu, nav, output, ruby, section, summary,
+        time, mark, audio, video {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+        }
+        /* HTML5 display-role reset for older browsers */
+        article, aside, details, figcaption, figure,
+        footer, header, hgroup, menu, nav, section {
+            display: block;
+        }
+        body {
+            line-height: 1;
+        }
+        ol, ul {
+            list-style: none;
+        }
+        blockquote, q {
+            quotes: none;
+        }
+        blockquote:before, blockquote:after,
+        q:before, q:after {
+            content: '';
+            content: none;
+        }
+        table {
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        /* End of reset.css */
         body {
         background-color: white;
         text-align: center;
@@ -25,9 +75,10 @@
         button {
         border: none;
         color: rgb(0, 16, 91);
-        padding: 15px 32px;
+        padding: 16px 32px;
         font-size: 16px;
-        margin: 4px 2px;
+        margin: 10px 0px;
+        width: 100%;
         cursor: pointer;
         display: inline-block;
         }
@@ -78,7 +129,7 @@
         width: 100%;
         border: none;
         font-weight: bold;
-        padding: 15px 32px;
+        padding: 16px 0px;
         font-size: 16px;
         text-align: center;
         }
@@ -90,9 +141,19 @@
         width: 100%;
         border: none;
         font-weight: bold;
-        padding: 15px 32px;
+        padding: 16px 0px;
         font-size: 16px;
         text-align: center;
+        }
+
+        .quiz-title {
+        padding: 48px 0px 16px 0px;
+        }
+
+        .actions-div {
+        width: 100%;
+        padding: 16px;
+        box-sizing: border-box;
         }
     </style>
     <script>
@@ -213,13 +274,14 @@
             } catch(e) {}   
         }</script>
         <title>SAFE RIDE QUIZ</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body onload="startPage()">
     <div id="pgStart">
-        <h1>SAFE RIDE QUIZ</h1>
+        <h1 class="quiz-title">SAFE RIDE QUIZ</h1>
 
         <p>Before you can start your first ride, please answer a question.</p>
-        <img src="img/hello.png" width="400">
+        <img src="img/hello.png" width="80%">
         
         <div style="position: relative; text-align: center;">
             <button class="action-button" onclick="goToQuiz()">START QUIZ</button>
@@ -227,7 +289,7 @@
     </div>
 
     <div id="pgQuiz">
-        <h1 id="quizTitle">Title</h1>
+        <h1 id="quizTitle" class="quiz-title">Title</h1>
         <div>
             <!-- <img src="img/hello.png" width="40"> -->
             <h1 id="quizError" class="error-msg">INCORRECT</h1>
@@ -239,13 +301,15 @@
         
         <p id="quizQuestion"></p>
         
-        <button id="trueBtn" class="answer-button" onclick="checkResult('True')">TRUE</button>
-        <button id="falseBtn" class="answer-button" onclick="checkResult('False')">FALSE</button>
-        
-        <br>
-        <div style="position: relative; text-align: center;">
-            <button id="finishBtn" class="action-button" onclick="callNativeApp()">FINISH</button>
-            <button id="tryAgainBtn" class="action-button" onclick="nextQuestion()">TRY AGAIN</button>
+        <div class="actions-div">
+            <button id="trueBtn" class="answer-button" onclick="checkResult('True')">TRUE</button>
+            <button id="falseBtn" class="answer-button" onclick="checkResult('False')">FALSE</button>
+            
+            <br>
+            <div style="position: relative; text-align: center;">
+                <button id="finishBtn" class="action-button" onclick="callNativeApp()">FINISH</button>
+                <button id="tryAgainBtn" class="action-button" onclick="nextQuestion()">TRY AGAIN</button>
+            </div>
         </div>
         
     </div>
