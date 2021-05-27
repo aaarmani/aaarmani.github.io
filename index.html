@@ -179,8 +179,11 @@
         }
 
         function startOnboarding() {
+            var cookieText = document.getElementById('cookiesTestTile');
+            cookieText.textContent = "AAA not running onboarding!";
+
             if (!document.cookie.split('; ').find(row => row.startsWith('startQuizOnlyOnce'))) {
-                alert("Cookies Armani");
+                cookieText.textContent = "AAA Onboarding running..."
                 setCookies(7);
             }
         }
