@@ -175,6 +175,21 @@
             var pgQuiz = document.getElementById('pgQuiz');
             pgStart.style.display = "block";
             pgQuiz.style.display = "none";
+            startOnboarding();
+        }
+
+        function startOnboarding() {
+            if (!document.cookie.split('; ').find(row => row.startsWith('startQuizOnlyOnce'))) {
+                alert("Cookies Armani");
+                setCookies(7);
+            }
+        }
+
+        function setCookies(expireInDays) {
+            var newDate = new Date();    
+            newDate.setTime(newDate.getTime() + (expireInDays*24*60*60*1000));
+            var expires = "expires="+ newDate.toUTCString();
+            document.cookie = "startQuizOnlyOnce=true; expires=Fri, " + expires;
         }
         
         function goToQuiz() {
@@ -279,7 +294,7 @@
 <body onload="startPage()">
     <div id="pgStart">
         <h1 class="quiz-title">SAFE RIDE QUIZ</h1>
-
+        <p id="cookiesTestTile"> Test Cookies Armani</p>
         <p>Before you can start your first ride, please answer a question.</p>
         <img src="img/hello.png" width="80%">
         
